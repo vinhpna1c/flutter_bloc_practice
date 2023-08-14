@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_practice/cubit/app_cubit.dart';
+import 'package:flutter_bloc_practice/cubit/app_cubit_logics.dart';
+import 'package:flutter_bloc_practice/pages/detail_page.dart';
 import 'package:flutter_bloc_practice/pages/nav_pages/main_page.dart';
 import 'package:flutter_bloc_practice/pages/welcome_page.dart';
+import 'package:flutter_bloc_practice/services/data_service.dart';
 
 void main() {
+  DataServices.initDataService();
   runApp(const MyApp());
 }
 
@@ -34,7 +40,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MainPage(),
+      home: BlocProvider<AppCubits>(
+        create: (context) => AppCubits(
+          dataService: DataServices(),
+        ),
+        child: const AppCubitsLogics(),
+      ),
     );
   }
 }
